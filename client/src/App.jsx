@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Toaster richColors position="top-right" />
-      <div className="min-h-screen bg-gray-50 p-4">
+      <div className="min-h-screen w-full bg-gray-50 m-0 p-0">
         <EnquiryPage2 />
       </div>
     </>

@@ -37,10 +37,10 @@ export default function EnquiryForm2() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const toastId = toast.loading("Submitting enquiry...");
+   //const toastId = toast.loading("Submitting enquiry...");
 
     try {
-      toast.dismiss(toastId);
+     
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND}/api/v1/enquiry`,
         data
@@ -57,7 +57,7 @@ export default function EnquiryForm2() {
         }, 4000);
       }
     } catch (error) {
-      toast.dismiss(toastId);
+     // toast.dismiss(toastId);
 
       if (error.response?.status === 409) {
         toast.error("Email or Phone already exists!");

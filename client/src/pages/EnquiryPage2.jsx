@@ -69,13 +69,13 @@ export default function EnquiryForm2() {
   };
 
   return (
-    <div className="w-full min-h-screen m-0 p-0 bg-gray-50 flex flex-col items-center font-sans">
+    <div className="w-full min-h-screen m-0 pb-4 bg-gray-50 flex flex-col items-center font-sans">
       {/* Banner Image */}
       <div className="w-full md:h-[600px] overflow-hidden">
         <img
           src="/dreamhome.jpg"
           alt="Dream Home"
-          className="w-full h-full object-cover object-center rounded-b-2xl"
+          className="w-full h-full object-cover object-center rounded-b-xl"
         />
       </div>
 

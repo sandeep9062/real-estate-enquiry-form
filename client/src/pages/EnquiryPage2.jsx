@@ -139,26 +139,34 @@ export default function EnquiryForm2() {
 
               {/* Phone */}
               <div>
-                <label className="block mb-1 text-blue-700 font-semibold">
-                  <Phone className="inline mr-1" />
-                  Mobile Number <span className="text-red-500">*</span>
-                </label>
-                <input
-                  {...register("phone", {
-                    required: "Phone is required",
-                    minLength: { value: 10, message: "Minimum 10 digits" },
-                    maxLength: { value: 10, message: "Maximum 10 digits" },
-                  })}
-                  type="tel"
-                  placeholder="Phone number"
-                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-                {errors.phone && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.phone.message}
-                  </p>
-                )}
-              </div>
+  <label className="block mb-1 text-blue-700 font-semibold">
+    <Phone className="inline mr-1" />
+    Mobile Number <span className="text-red-500">*</span>
+  </label>
+  <input
+    {...register("phone", {
+      required: "Phone is required",
+      minLength: { value: 10, message: "Minimum 10 digits" },
+      maxLength: { value: 10, message: "Maximum 10 digits" },
+      pattern: {
+        value: /^[0-9]{10}$/,
+        message: "Only digits allowed",
+      },
+    })}
+    type="tel"
+    placeholder="Phone number"
+    inputMode="numeric"
+    maxLength={10} // Enforce max length at the HTML level
+    onInput={(e) => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    }}
+    className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
+  />
+  {errors.phone && (
+    <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+  )}
+</div>
+
 
               {/* Preferred City */}
               <div>

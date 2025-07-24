@@ -21,6 +21,8 @@ import {
   MonetizationOn,
   Campaign,
   VerifiedUser,
+  SportsBaseball,
+  SportsBasketball,
 } from "@mui/icons-material";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -374,7 +376,7 @@ export default function EnquiryForm2() {
                 {" "}
                 What amenities do you dream of?
               </p>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
                 {[
                   {
                     label: "Garden",
@@ -388,7 +390,13 @@ export default function EnquiryForm2() {
                     label: "Parking",
                     icon: <Garage className="text-slate-600" />,
                   },
+
                   { label: "Pool", icon: <Pool className="text-blue-400" /> },
+
+                  {
+                    label: "Kids Play Area",
+                    icon: <SportsBaseball className="text-lime-400" />,
+                  },
                 ].map((item) => (
                   <label
                     key={item.label}

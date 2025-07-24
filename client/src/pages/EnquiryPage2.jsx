@@ -27,7 +27,7 @@ import { toast } from "sonner";
 
 export default function EnquiryForm2() {
   const [submitted, setSubmitted] = useState(false);
-  //const[issubmitting,isSetSubmitting]=useState(false);
+  const [issubmitting, isSetSubmitting] = useState(false);
 
   const {
     register,
@@ -37,10 +37,10 @@ export default function EnquiryForm2() {
   } = useForm();
 
   const onSubmit = async (data) => {
-   //const toastId = toast.loading("Submitting enquiry...");
-
+    //const toastId = toast.loading("Submitting enquiry...");
+    isSetSubmitting(true);
     try {
-     
+      toast.success("Submitting enquiry...");
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND}/api/v1/enquiry`,
         data
@@ -57,7 +57,7 @@ export default function EnquiryForm2() {
         }, 4000);
       }
     } catch (error) {
-     // toast.dismiss(toastId);
+      // toast.dismiss(toastId);
 
       if (error.response?.status === 409) {
         toast.error("Email or Phone already exists!");
@@ -65,6 +65,8 @@ export default function EnquiryForm2() {
         console.error("Submission error:", error);
         toast.error("Something went wrong. Please try again.");
       }
+    } finally {
+      isSetSubmitting(false);
     }
   };
 
@@ -139,34 +141,37 @@ export default function EnquiryForm2() {
 
               {/* Phone */}
               <div>
-  <label className="block mb-1 text-blue-700 font-semibold">
-    <Phone className="inline mr-1" />
-    Mobile Number <span className="text-red-500">*</span>
-  </label>
-  <input
-    {...register("phone", {
-      required: "Phone is required",
-      minLength: { value: 10, message: "Minimum 10 digits" },
-      maxLength: { value: 10, message: "Maximum 10 digits" },
-      pattern: {
-        value: /^[0-9]{10}$/,
-        message: "Only digits allowed",
-      },
-    })}
-    type="tel"
-    placeholder="Phone number"
-    inputMode="numeric"
-    maxLength={10} // Enforce max length at the HTML level
-    onInput={(e) => {
-      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
-    }}
-    className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
-  />
-  {errors.phone && (
-    <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
-  )}
-</div>
-
+                <label className="block mb-1 text-blue-700 font-semibold">
+                  <Phone className="inline mr-1" />
+                  Mobile Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  {...register("phone", {
+                    required: "Phone is required",
+                    minLength: { value: 10, message: "Minimum 10 digits" },
+                    maxLength: { value: 10, message: "Maximum 10 digits" },
+                    pattern: {
+                      value: /^[0-9]{10}$/,
+                      message: "Only digits allowed",
+                    },
+                  })}
+                  type="tel"
+                  placeholder="Phone number"
+                  inputMode="numeric"
+                  maxLength={10} // Enforce max length at the HTML level
+                  onInput={(e) => {
+                    e.target.value = e.target.value
+                      .replace(/\D/g, "")
+                      .slice(0, 10);
+                  }}
+                  className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.phone && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.phone.message}
+                  </p>
+                )}
+              </div>
 
               {/* Preferred City */}
               <div>
@@ -516,9 +521,14 @@ export default function EnquiryForm2() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-md text-lg font-medium transition"
+              disabled={issubmitting}
+              className={`w-full ${
+                issubmitting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-red-600 hover:bg-red-700"
+              } text-white py-3 rounded-md text-lg font-medium transition`}
             >
-              Submit Enquiry
+              {issubmitting ? "Submitting..." : "Submit Enquiry"}
             </button>
           </form>
 
